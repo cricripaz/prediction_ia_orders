@@ -9,8 +9,8 @@ app = Flask(__name__)
 CORS(app)  # Habilita CORS para todas las rutas
 
 # Cargar el modelo y el escalador
-model = joblib.load('svr_model.pkl')
-scaler = joblib.load('scaler.pkl')
+model = joblib.load('final/test_final/modelo_87.pkl')
+scaler = joblib.load('final/test_final/scaler_87.pkl')
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -43,6 +43,14 @@ def predict():
             'date': date.strftime('%Y-%m-%d'),
             'quantity': round(float(pred), 2)
         } for date, pred in zip(dates, predictions)]
+
+        # Imprimir la respuesta en consola antes de enviarla
+        print({
+            'data': result,
+            'message': 'Predictions get successfully',
+            'year': year,
+            'month': month,
+        })
 
         return jsonify({
             'data': result,
